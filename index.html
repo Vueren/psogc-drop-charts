@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PSO Drop Charts (GC)</title>
+    <script src="PSOGCDrops.js"></script>
+    <style>
+        body {
+            user-select: none;
+        }
+
+        #drops-table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 4px solid black;
+            margin-bottom: 30em;
+        }
+
+        #drops-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: #333333;
+            color: #FFFFFF;
+        }
+
+        #drops-table th, td {
+            border: 2px solid black;
+            text-align: center;
+            padding: 1em;
+        }
+
+        #drops-table th:nth-child(2), #drops-table td:nth-child(2) {
+            border-right: 4px solid black;
+        }
+
+        #drops-table th:nth-child(1), #drops-table td:nth-child(1) {
+            text-align: right;
+        }
+
+        #drops-table td:nth-child(1), #drops-table td:nth-child(3) {
+            font-weight: bold;
+        }
+
+        #drops-table th:nth-child(2), #drops-table td:nth-child(2) {
+            text-align: left;
+        }
+
+        #filters > table {
+            border-collapse: collapse;
+            border: 4px solid black;
+            vertical-align: top;
+            display: inline-block;
+            margin-bottom: 1em;
+            margin-right: 1em;
+        }
+
+        #filters label {
+            display: block;
+            padding: 1em;
+            text-align: center;
+        }
+
+        #filters input[type=text] {
+            width: 12em;
+            height: 3em;
+            padding: 1em;
+            font-size: 1.2em;
+            box-sizing: border-box;
+        }
+
+        #filters td:nth-child(2) {
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>PSO Drop Charts (GC)</h1>
+    <h3>Welcome to the Phantasy Star Online drop charts for GameCube!</h3>
+    <div id="filters">
+        <table id="filter-name">
+            <tr>
+                <td>Item Name</td>
+                <td><input type="text" name="item-name" id="item-name" oninput="applyFilters(this)" /></td>
+            </tr>
+        </table>
+        <table id="filter-area">
+            <tr>
+                <td>Forest</td>
+                <td><label for="forest"><input type="checkbox" name="forest" id="forest" value="Forest" onchange="applyFilters(this)" /></label></td>
+            </tr>
+
+            <tr>
+                <td>Caves</td>
+                <td><label for="caves"><input type="checkbox" name="caves" id="caves" value="Caves" onchange="applyFilters(this)" /></label></td>
+            </tr>
+
+            <tr>
+                <td>Mines</td>
+                <td><label for="mines"><input type="checkbox" name="mines" id="mines" value="Mines" onchange="applyFilters(this)" /></label></td>
+            </tr>
+                
+            <tr>
+                <td>Ruins</td>
+                <td><label for="ruins"><input type="checkbox" name="ruins" id="ruins" value="Ruins" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>VR Temple</td>
+                <td><label for="vrtemple"><input type="checkbox" name="vrtemple" id="vrtemple" value="VR Temple" onchange="applyFilters(this)" /></label></td>
+            </tr>
+
+            <tr>
+                <td>VR Spaceship</td>
+                <td><label for="vrspaceship"><input type="checkbox" name="vrspaceship" id="vrspaceship" value="VR Spaceship" onchange="applyFilters(this)" /></label></td>
+            </tr>
+
+            <tr>
+                <td>Central Control Area</td>
+                <td><label for="cca"><input type="checkbox" name="cca" id="cca" value="Central Control Area" onchange="applyFilters(this)" /></label></td>
+            </tr>
+                
+            <tr>
+                <td>Seabed</td>
+                <td><label for="seabed"><input type="checkbox" name="seabed" id="seabed" value="Seabed" onchange="applyFilters(this)" /></label></td>
+            </tr>
+                
+            <tr>
+                <td>Control Tower</td>
+                <td><label for="tower"><input type="checkbox" name="tower" id="tower" value="Control Tower" onchange="applyFilters(this)" /></label></td>
+            </tr>
+        </table><table id="filter-difficulty">
+            <tr>
+                <td>Normal</td>
+                <td><label for="normal"><input type="checkbox" name="normal" id="normal" value="Normal" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Hard</td>
+                <td><label for="hard"><input type="checkbox" name="hard" id="hard" value="Hard" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Very Hard</td>
+                <td><label for="veryhard"><input type="checkbox" name="veryhard" id="veryhard" value="Very Hard" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Ultimate</td>
+                <td><label for="ultimate"><input type="checkbox" name="ultimate" id="ultimate" value="Ultimate" onchange="applyFilters(this)" /></label></td>
+            </tr>
+        </table><table id="filter-section-id">
+            <tr>
+                <td>Viridia</td>
+                <td><label for="viridia"><input type="checkbox" name="viridia" id="viridia" value="Viridia" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Greenil</td>
+                <td><label for="greenil"><input type="checkbox" name="greenil" id="greenil" value="Greenil" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Skyly</td>
+                <td><label for="skyly"><input type="checkbox" name="skyly" id="skyly" value="Skyly" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Bluefull</td>
+                <td><label for="bluefull"><input type="checkbox" name="bluefull" id="bluefull" value="Bluefull" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Purplenum</td>
+                <td><label for="purplenum"><input type="checkbox" name="purplenum" id="purplenum" value="Purplenum" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Pinkal</td>
+                <td><label for="pinkal"><input type="checkbox" name="pinkal" id="pinkal" value="Pinkal" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Redria</td>
+                <td><label for="redria"><input type="checkbox" name="redria" id="redria" value="Redria" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Oran</td>
+                <td><label for="oran"><input type="checkbox" name="oran" id="oran" value="Oran" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Yellowboze</td>
+                <td><label for="yellowboze"><input type="checkbox" name="yellowboze" id="yellowboze" value="Yellowboze" onchange="applyFilters(this)" /></label></td>
+            </tr>
+            <tr>
+                <td>Whitill</td>
+                <td><label for="whitill"><input type="checkbox" name="whitill" id="whitill" value="Whitill" onchange="applyFilters(this)" /></label></td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    <br />
+    <table id="drops-table">
+        <thead>
+            <tr>
+                <th>Item Name & Drop Rate</th>
+                <th>Enemy</th>
+                <th>Area</th>
+                <th>Difficulty</th>
+                <th>Section ID</th>
+            </tr>
+        </thead>
+        <tbody id="drop-charts"></tbody>
+    </table>
+    <script>
+        function applyFilters() {
+            console.log('Filters applied!')
+
+            let filteredDrops = allItems
+
+            if(
+                ( // If everything is disabled
+                       ! document.getElementById('forest').checked
+                    && ! document.getElementById('caves').checked
+                    && ! document.getElementById('mines').checked
+                    && ! document.getElementById('ruins').checked
+                    && ! document.getElementById('vrtemple').checked
+                    && ! document.getElementById('vrspaceship').checked
+                    && ! document.getElementById('cca').checked
+                    && ! document.getElementById('seabed').checked
+                    && ! document.getElementById('tower').checked
+                )
+            ) {
+                // Skip the filter (show all)
+            } else { // If something is enabled, Apply the filter to all
+                filteredDrops =
+                    allItems.filter((drop) => (
+                            (document.getElementById('forest').checked ? document.getElementById('forest').value === drop.Area.name : false)
+                            || (document.getElementById('caves').checked ? document.getElementById('caves').value === drop.Area.name : false)
+                            || (document.getElementById('mines').checked ? document.getElementById('mines').value === drop.Area.name : false)
+                            || (document.getElementById('ruins').checked ? document.getElementById('ruins').value === drop.Area.name : false)
+                            || (document.getElementById('vrtemple').checked ? document.getElementById('vrtemple').value === drop.Area.name : false)
+                            || (document.getElementById('vrspaceship').checked ? document.getElementById('vrspaceship').value === drop.Area.name : false)
+                            || (document.getElementById('cca').checked ? document.getElementById('cca').value === drop.Area.name : false)
+                            || (document.getElementById('seabed').checked ? document.getElementById('seabed').value === drop.Area.name : false)
+                            || (document.getElementById('tower').checked ? document.getElementById('tower').value === drop.Area.name : false)
+                    ))
+            }
+
+            if(
+                ( // If everything is disabled
+                       ! document.getElementById('normal').checked
+                    && ! document.getElementById('hard').checked
+                    && ! document.getElementById('veryhard').checked
+                    && ! document.getElementById('ultimate').checked
+                )
+            ) {
+                // Skip the filter (show all)
+            } else { // If something is enabled, Apply the filter to all
+                filteredDrops =
+                    filteredDrops.filter((drop) => (
+                        (document.getElementById('normal').checked ? document.getElementById('normal').value === drop.Difficulty.name : false)
+                        || (document.getElementById('hard').checked ? document.getElementById('hard').value === drop.Difficulty.name : false)
+                        || (document.getElementById('veryhard').checked ? document.getElementById('veryhard').value === drop.Difficulty.name : false)
+                        || (document.getElementById('ultimate').checked ? document.getElementById('ultimate').value === drop.Difficulty.name : false)
+                    ))
+            }
+
+
+            if(
+                ( // If everything is disabled
+                       ! document.getElementById('viridia').checked
+                    && ! document.getElementById('greenil').checked
+                    && ! document.getElementById('skyly').checked
+                    && ! document.getElementById('bluefull').checked
+                    && ! document.getElementById('purplenum').checked
+                    && ! document.getElementById('pinkal').checked
+                    && ! document.getElementById('redria').checked
+                    && ! document.getElementById('oran').checked
+                    && ! document.getElementById('yellowboze').checked
+                    && ! document.getElementById('whitill').checked
+                )
+            ) {
+                // Skip the filter (show all)
+            } else { // If something is enabled, Apply the filter to all
+                filteredDrops =
+                    filteredDrops.filter((drop) => (
+                        (document.getElementById('viridia').checked ? document.getElementById('viridia').value === drop.SectionID.name : false)
+                        || (document.getElementById('greenil').checked ? document.getElementById('greenil').value === drop.SectionID.name : false)
+                        || (document.getElementById('skyly').checked ? document.getElementById('skyly').value === drop.SectionID.name : false)
+                        || (document.getElementById('bluefull').checked ? document.getElementById('bluefull').value === drop.SectionID.name : false)
+                        || (document.getElementById('purplenum').checked ? document.getElementById('purplenum').value === drop.SectionID.name : false)
+                        || (document.getElementById('pinkal').checked ? document.getElementById('pinkal').value === drop.SectionID.name : false)
+                        || (document.getElementById('redria').checked ? document.getElementById('redria').value === drop.SectionID.name : false)
+                        || (document.getElementById('oran').checked ? document.getElementById('oran').value === drop.SectionID.name : false)
+                        || (document.getElementById('yellowboze').checked ? document.getElementById('yellowboze').value === drop.SectionID.name : false)
+                        || (document.getElementById('whitill').checked ? document.getElementById('whitill').value === drop.SectionID.name : false)
+                    ))
+            }
+
+            if(document.getElementById('item-name').value.trim() !== "") {
+                filteredDrops =
+                    filteredDrops.filter((drop) => (
+                        drop.ItemName.toLowerCase().indexOf(document.getElementById('item-name').value.toLowerCase().trim()) >= 0
+                    ))
+            }
+
+            const dropCharts = document.getElementById('drop-charts')
+            dropCharts.replaceChildren()
+            for(let i = 0; i < filteredDrops.length; i++) {
+                const tr = document.createElement('tr')
+                const ItemName = document.createElement('td')
+                const DropRate = document.createElement('td')
+                const EnemyName = document.createElement('td')
+                const Area = document.createElement('td')
+                const Difficulty = document.createElement('td')
+                const SectionID = document.createElement('td')
+                ItemName.innerText = filteredDrops[i].ItemName + "\n" + filteredDrops[i].DropRate
+                EnemyName.innerText = filteredDrops[i].EnemyName
+                Area.innerText = filteredDrops[i].Area.name
+                Difficulty.innerText = filteredDrops[i].Difficulty.name
+                SectionID.innerText = filteredDrops[i].SectionID.name
+                tr.appendChild(ItemName)
+                tr.appendChild(EnemyName)
+                tr.appendChild(Area)
+                tr.appendChild(Difficulty)
+                tr.appendChild(SectionID)
+
+                switch(filteredDrops[i].SectionID.name) {
+                    case 'Viridia':
+                        tr.style.color = '#FFFFFF'
+                        tr.style.backgroundColor = '#00A562'
+                        break;
+                    case 'Greenil':
+                        tr.style.backgroundColor = '#76FE43'
+                        break;
+                    case 'Skyly':
+                        tr.style.backgroundColor = '#59F9F9'
+                        break;
+                    case 'Bluefull':
+                        tr.style.color = '#FFFFFF'
+                        tr.style.backgroundColor = '#4488FF'
+                        break;
+                    case 'Purplenum':
+                        tr.style.color = '#FFFFFF'
+                        tr.style.backgroundColor = '#CC00FF'
+                        break;
+                    case 'Pinkal':
+                        tr.style.backgroundColor = '#FF87CB'
+                        break;
+                    case 'Redria':
+                        tr.style.color = '#FFFFFF'
+                        tr.style.backgroundColor = '#F70F0F'
+                        break;
+                    case 'Oran':
+                        tr.style.backgroundColor = '#F7830F'
+                        break;
+                    case 'Yellowboze':
+                        tr.style.backgroundColor = '#F7F715'
+                        break;
+                    case 'Whitill':
+                        tr.style.backgroundColor = '#FFFFFF'
+                        break;
+                    default:
+                        break;
+                }
+
+                dropCharts.appendChild(tr)
+            }
+        }
+        applyFilters()
+    </script>
+</body>
+</html>
