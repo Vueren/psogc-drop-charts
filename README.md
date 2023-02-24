@@ -9,3 +9,5 @@ Special thanks go out to PhantasyStarved and all those who helped him put togeth
 The data on PSO World is *sometimes* inaccurate.
 
 Without further ado... Enjoy the website!
+
+[PSOGC Drop Charts](https://vueren.github.io/psogc-drop-charts/)
