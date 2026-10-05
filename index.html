@@ -2,13 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title>PSO Drop Charts (GC)</title>
     <script src="PSOGCDrops.js"></script>
     <style>
-        body {
-            user-select: none;
-        }
-
         #drops-table {
             border-collapse: collapse;
             width: 100%;
@@ -27,10 +24,6 @@
             border: 2px solid black;
             text-align: center;
             padding: 1em;
-        }
-
-        #drops-table th:nth-child(2), #drops-table td:nth-child(2) {
-            border-right: 4px solid black;
         }
 
         #drops-table th:nth-child(1), #drops-table td:nth-child(1) {
@@ -53,7 +46,9 @@
             margin-bottom: 1em;
             margin-right: 1em;
         }
-
+        #filters td:nth-child(1) {
+            width: 10em;
+        }
         #filters label {
             display: block;
             padding: 1em;
@@ -71,16 +66,33 @@
         #filters td:nth-child(2) {
             padding: 0;
         }
+
+        p {
+            margin-bottom: 0;
+        }
+        ul {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
-    <h1>PSO Drop Charts (GC)</h1>
-    <h3>Welcome to the Phantasy Star Online drop charts for GameCube!</h3>
-    <div id="filters">
+    <header>
+        <h1>PSO Drop Charts (GC)</h1>
+        <h3>Welcome to the Phantasy Star Online rare drop charts for GameCube!</h3>
+    <br />
+    <br />
+    <section id="filters">
         <table id="filter-name">
             <tr>
                 <td>Item Name</td>
                 <td><input type="text" name="item-name" id="item-name" oninput="applyFilters(this)" /></td>
+            </tr>
+        </table>
+        <br />
+        <table id="filter-monster">
+            <tr>
+                <td>Monster Name</td>
+                <td><input type="text" name="monster-name" id="monster-name" oninput="applyFilters(this)" /></td>
             </tr>
         </table>
         <br />
@@ -151,8 +163,8 @@
                 <td><label for="viridia"><input type="checkbox" name="viridia" id="viridia" value="Viridia" onchange="applyFilters(this)" /></label></td>
             </tr>
             <tr>
-                <td>Greenil</td>
-                <td><label for="greenil"><input type="checkbox" name="greenil" id="greenil" value="Greenil" onchange="applyFilters(this)" /></label></td>
+                <td>Greenill</td>
+                <td><label for="greenill"><input type="checkbox" name="greenill" id="greenill" value="Greenill" onchange="applyFilters(this)" /></label></td>
             </tr>
             <tr>
                 <td>Skyly</td>
@@ -187,7 +199,8 @@
                 <td><label for="whitill"><input type="checkbox" name="whitill" id="whitill" value="Whitill" onchange="applyFilters(this)" /></label></td>
             </tr>
         </table>
-    </div>
+    </section>
+    </header>
     <br />
     <br />
     <table id="drops-table">
@@ -202,6 +215,7 @@
         </thead>
         <tbody id="drop-charts"></tbody>
     </table>
+
     <script>
         function applyFilters() {
             console.log('Filters applied!')
@@ -260,7 +274,7 @@
             if(
                 ( // If everything is disabled
                        ! document.getElementById('viridia').checked
-                    && ! document.getElementById('greenil').checked
+                    && ! document.getElementById('greenill').checked
                     && ! document.getElementById('skyly').checked
                     && ! document.getElementById('bluefull').checked
                     && ! document.getElementById('purplenum').checked
@@ -276,7 +290,7 @@
                 filteredDrops =
                     filteredDrops.filter((drop) => (
                         (document.getElementById('viridia').checked ? document.getElementById('viridia').value === drop.SectionID.name : false)
-                        || (document.getElementById('greenil').checked ? document.getElementById('greenil').value === drop.SectionID.name : false)
+                        || (document.getElementById('greenill').checked ? document.getElementById('greenill').value === drop.SectionID.name : false)
                         || (document.getElementById('skyly').checked ? document.getElementById('skyly').value === drop.SectionID.name : false)
                         || (document.getElementById('bluefull').checked ? document.getElementById('bluefull').value === drop.SectionID.name : false)
                         || (document.getElementById('purplenum').checked ? document.getElementById('purplenum').value === drop.SectionID.name : false)
@@ -292,6 +306,13 @@
                 filteredDrops =
                     filteredDrops.filter((drop) => (
                         drop.ItemName.toLowerCase().indexOf(document.getElementById('item-name').value.toLowerCase().trim()) >= 0
+                    ))
+            }
+
+            if(document.getElementById('monster-name').value.trim() !== "") {
+                filteredDrops =
+                    filteredDrops.filter((drop) => (
+                        drop.EnemyName.toLowerCase().indexOf(document.getElementById('monster-name').value.toLowerCase().trim()) >= 0
                     ))
             }
 
@@ -321,7 +342,7 @@
                         tr.style.color = '#FFFFFF'
                         tr.style.backgroundColor = '#00A562'
                         break;
-                    case 'Greenil':
+                    case 'Greenill':
                         tr.style.backgroundColor = '#76FE43'
                         break;
                     case 'Skyly':
