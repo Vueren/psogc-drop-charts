@@ -13,7 +13,8 @@ Without further ado... Enjoy the website!
 [PSOGC Drop Charts](https://vueren.github.io/psogc-drop-charts/)
 
 
-Updates as of Oct 5th 2026:
+# Updates as of Oct 5th 2026:
+
 - Feature: **Added a Monster Name filter**
 - Data Entry: **Fixed numerous drop rate issues (majority of which were in normal difficulty and majority of which were off-by-one) by using actual game data**
   - *DISCLAIMER: Box rates have not been reviewed just yet!*
